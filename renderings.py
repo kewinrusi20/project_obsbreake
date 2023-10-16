@@ -1,4 +1,7 @@
+# Python Libraries
 import pygame
+
+# My Files
 import video_settings
 
 

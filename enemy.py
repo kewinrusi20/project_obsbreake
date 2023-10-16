@@ -1,6 +1,9 @@
+# Python Libraries
 import pygame
-import video_settings
 import random
+
+# My Files
+import video_settings
 
 class Enemy:
     fly = pygame.image.load('./images/Fly/Fly1.png')
@@ -46,7 +49,7 @@ class Enemy:
         video_settings.screen.blit(self.fly, (self.random_x, self.random_y))
 
 
-    def hitbox(self, x, y):
+    def hitted(self, x, y):
         left = self.fly.get_rect().left + self.random_x
         right = self.fly.get_rect().right + self.random_x
         top = self.fly.get_rect().top + self.random_y

@@ -1,25 +1,24 @@
-# python libraries
+# Python Libraries
 import pygame
 import sys
 
-# my files
+# My Files
 import video_settings
 import renderings
 import player
 import enemy
 
-
 def main():
     pygame.init()
     e1 = enemy.Enemy()
-
+    p1 = player.Player()
     player_x_input = player_y_input = None
+    move = False
+
     continue_move = False
     loop_continue = True
     while loop_continue:
         for event in pygame.event.get():
-            #print(event)
-
             # Close Program
             if event.type == pygame.QUIT:
                 loop_continue = False
@@ -28,37 +27,40 @@ def main():
             # Move Player
             if event.type == pygame.MOUSEBUTTONDOWN: # 1025
                 player_x_input, player_y_input = event.pos
+                move = True
                 continue_move = True
-                player.stop = False
-                if e1.hitbox(player_x_input, player_y_input):
-                    player.stop = True
-                    e1 = None
-                    e1 = enemy.Enemy()
-
-
-
-            if continue_move:
-                if event.type == pygame.MOUSEBUTTONUP:
-                    player_x_input, player_y_input = event.pos
+                if e1.hitted(player_x_input, player_y_input):
                     continue_move = False
-
-                if event.type == pygame.MOUSEMOTION:
-                    player_x_input, player_y_input = event.pos
-                    player.stop = False
+                    move = False
+                    e1 = mob_reset(e1)
 
 
+            if event.type == pygame.MOUSEBUTTONUP:
+                continue_move = False
 
-
+            if event.type == pygame.MOUSEMOTION and continue_move:
+                player_x_input, player_y_input = event.pos
 
             # Stop Player
-            if event.type == 768 and event.unicode == 's':
-                player.stop = True
+            if event.type == pygame.KEYDOWN and event.unicode == 's':  # 768
+                continue_move = False
+                move = False
+                p1.movement_stop()
+            # End Loop
+
+
+
 
 
         renderings.background()
         #renderings.menu_welcome()
+        if player_x_input is None:
+            player_x_input = p1.location_x_spawn
+            player_y_input = p1.location_y_spawn
 
-        player.player_main(player_x_input, player_y_input)
+        if move:
+            p1.location_move(player_x_input, player_y_input)
+        p1.blit_player()
         e1.enemy_blit()
 
 
@@ -68,10 +70,19 @@ def main():
 
         # Refresh Screen
         video_settings.screen_windows()
+    # End Loop
+
 
     # Shot Down the Program
     pygame.quit()
     sys.exit()  # thi command stops the code
+
+
+# Funny Functions
+def mob_reset(e: enemy):
+    e = None
+    return enemy.Enemy()
+
 
 if __name__ == '__main__':
     main()

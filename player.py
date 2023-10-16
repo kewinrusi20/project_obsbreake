@@ -1,52 +1,63 @@
+# Python Libraries
+import pygame
 import math
 
-import pygame
+# My Files
 import video_settings
 
-rock_height = 50
-rock_width = 50
-x_curr = x_start = (video_settings.screen_width / 2) - (rock_width / 2)
-y_curr = y_start = (video_settings.screen_height / 2) - (rock_height / 2)
-stop = False
+class Player:
+    img = None
+    player_height = None
+    player_width = None
+    location_y_curr = None
+    location_x_curr = None
 
 
-img_rock = pygame.image.load('images/rock/rock.png')
-img_rock = pygame.transform.scale(img_rock, (rock_width, rock_height))
+    def __init__(self):
+        self.image_set()
+        self.location_default()
+        self.blit_player()
 
-def player_main(x_input, y_input):
-    player_move(x_input, y_input)
+    def image_set(self):
+        self.img = pygame.image.load('images/rock/rock.png')
+        self.player_width = 50
+        self.player_height = 50
+        self.img = pygame.transform.scale(self.img, (self.player_width, self.player_height))
 
 
-def player_move(x_des, y_des):
-    global x_curr, y_curr
+    def location_default(self):
+        self.location_x_des = self.location_x_curr = self.location_x_spawn = (video_settings.screen_width / 2) - (self.player_width / 2)
+        self.location_y_des = self.location_y_curr = self.location_y_spawn = (video_settings.screen_height / 2) - (self.player_height / 2)
 
-    # Stop Player
-    if stop:
-        x_des = x_curr
-        y_des = y_curr
+# ------------------------------------------------------------------------------------------------------------------------------------------------
 
-    if x_des is not None and y_des is not None:
-        x_diff = x_des - x_curr
-        y_diff = y_des - y_curr
+    def movement_stop(self):
+        self.location_move(self.location_x_curr, self.location_y_curr)
 
-        dist = math.sqrt(math.pow(x_diff, 2) + math.pow(y_diff, 2))
-        #print(dist)
 
-        if dist > 0:
-            x_diff /= dist
-            y_diff /= dist
+    def location_teleport(self, location_x_des, location_y_des):
+        self.location_x_curr = location_x_des
+        self.location_y_curr = location_y_des
 
-            x_curr += x_diff
-            y_curr += y_diff
 
-        # Teleport to Destination if close enough
-        if dist < 1:
-            x_curr = x_des
-            y_curr = y_des
+    def location_move(self, location_x_des, location_y_des):
+        # Set Variable to the Object
+        self.location_x_des = location_x_des
+        self.location_y_des = location_y_des
 
-    # Blit Player
-    video_settings.screen.blit(img_rock, (x_curr , y_curr))
+        if self.location_x_des is not None:
+            cathete_x = int(self.location_x_des) - int(self.location_x_curr)
+            cathete_y = int(self.location_y_des) - int(self.location_y_curr)
+            hypotenuse = math.sqrt(math.pow(cathete_x, 2) + math.pow(cathete_y, 2))
 
-    # Reset Destination Position
-    if x_curr is x_des and y_curr is y_des:
-        x_des = y_des = None
+            if hypotenuse > 0:
+                self.location_x_curr += (cathete_x / hypotenuse)
+                self.location_y_curr += (cathete_y / hypotenuse)
+                #print(self.location_x_curr)
+
+            # Teleport to Destination if close enough
+            if hypotenuse < 1:
+                self.location_teleport(location_x_des, location_y_des)
+
+    def blit_player(self):
+        video_settings.screen.blit(self.img, (self.location_x_curr, self.location_y_curr))

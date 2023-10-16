@@ -1,10 +1,11 @@
+# Python Libraries
 import pygame
 
 pygame.display.set_caption('SpaceForce')
 
 # SCREEN ---------------------------------------------------------------------------
-screen_width = 800
-screen_height = 400
+screen_width = 1500
+screen_height = 800
 flag = pygame.HWSURFACE | pygame.DOUBLEBUF
 screen = pygame.display.set_mode((screen_width, screen_height), flag)
 
