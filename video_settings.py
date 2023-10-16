@@ -13,7 +13,7 @@ screen = pygame.display.set_mode((screen_width, screen_height), flag)
 def screen_windows():
     clock.tick(fpx_max)
     pygame.display.update()  # alternative: `.flip()`
-    #screen.fill((0, 0, 0))
+    screen.fill((255, 255, 255))
 
 
 # FPS ------------------------------------------------------------------------------

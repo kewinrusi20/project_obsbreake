@@ -77,13 +77,13 @@ def blit_content():
         if counter < len(menu_rendered) -1:
             text_y += element.get_rect().height
 
-img_sky = pygame.image.load('images/sky.png')
-img_ground = pygame.image.load('images/ground.png')
-img_dirt = pygame.image.load('images/dirt.jpg')
-img_dirt = pygame.transform.scale(img_dirt, (video_settings.screen_width, video_settings.screen_height))
+#img_sky = pygame.image.load('images/sky.png')
+#img_ground = pygame.image.load('images/ground.png')
+#img_dirt = pygame.image.load('images/dirt.jpg')
+#img_dirt = pygame.transform.scale(img_dirt, (video_settings.screen_width, video_settings.screen_height))
 
-def background():
-    video_settings.screen.blit(img_dirt, (0, 0))
+#def background():
+    #video_settings.screen.blit(img_dirt, (0, 0))
     #video_settings.screen.blit(img_sky, (0, 0))
     #video_settings.screen.blit(img_ground, (0, 300))
     # WuW

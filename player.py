@@ -19,7 +19,7 @@ class Player:
         self.blit_player()
 
     def image_set(self):
-        self.img = pygame.image.load('images/rock/rock.png')
+        self.img = pygame.image.load('images/player/01.png')
         self.player_width = 50
         self.player_height = 50
         self.img = pygame.transform.scale(self.img, (self.player_width, self.player_height))
